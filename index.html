@@ -13,8 +13,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <link rel="stylesheet" href="language-toggle.css" />
   </head>
   <body>
+    <!-- Language Toggle Button -->
+    <button class="language-toggle" onclick="toggleLanguage()">
+      <i class="fas fa-language"></i>
+      <span id="langText">English</span>
+    </button>
+
     <div class="container">
       <!-- Screen 1: Welcome Screen -->
       <div class="screen active" id="screen1">
@@ -23,12 +30,32 @@
           <p class="tagline">Where Medicine Meets Art</p>
         </div>
         <div class="content">
-          <h2 class="main-title">اكتشف نوع بشرتك</h2>
-          <h3 class="sub-title">وادخل السحب مع Glowdent</h3>
-          <p class="description">أول عيادة أسنان وتجميل في مول بالرياض</p>
+          <h2
+            class="main-title"
+            data-ar="اكتشف نوع بشرتك"
+            data-en="Discover Your Skin Type"
+          >
+            اكتشف نوع بشرتك
+          </h2>
+          <h3
+            class="sub-title"
+            data-ar="وادخل السحب مع Glowdent"
+            data-en="And Enter the Draw with Glowdent"
+          >
+            وادخل السحب مع Glowdent
+          </h3>
+          <p
+            class="description"
+            data-ar="أول عيادة أسنان وتجميل في مول بالرياض"
+            data-en="The First Dental and Beauty Clinic in a Mall in Riyadh"
+          >
+            أول عيادة أسنان وتجميل في مول بالرياض
+          </p>
           <button class="btn-primary" onclick="nextScreen(2)">
             <i class="fas fa-arrow-left"></i>
-            ابدأ الاختبار
+            <span data-ar="ابدأ الاختبار" data-en="Start the Test"
+              >ابدأ الاختبار</span
+            >
           </button>
         </div>
       </div>
@@ -36,42 +63,66 @@
       <!-- Screen 2: Data Collection Screen -->
       <div class="screen" id="screen2">
         <div class="content">
-          <h2 class="main-title">المشاركة في السحب</h2>
-          <p class="form-intro">
+          <h2
+            class="main-title"
+            data-ar="المشاركة في السحب"
+            data-en="Participate in the Draw"
+          >
+            المشاركة في السحب
+          </h2>
+          <p
+            class="form-intro"
+            data-ar="للدخول في السحب، يرجى تعبئة البيانات التالية:"
+            data-en="To enter the draw, please fill in the following information:"
+          >
             للدخول في السحب، يرجى تعبئة البيانات التالية:
           </p>
 
           <form id="participantForm" class="form">
             <div class="form-group">
-              <label>الاسم الكامل</label>
+              <label data-ar="الاسم الكامل" data-en="Full Name"
+                >الاسم الكامل</label
+              >
               <input
                 type="text"
                 id="fullName"
                 required
                 placeholder="أدخل اسمك الكامل"
+                data-placeholder-ar="أدخل اسمك الكامل"
+                data-placeholder-en="Enter your full name"
               />
             </div>
 
             <div class="form-group">
-              <label>رقم الجوال</label>
+              <label data-ar="رقم الجوال" data-en="Phone Number"
+                >رقم الجوال</label
+              >
               <input
                 type="tel"
                 id="phoneNumber"
                 required
                 placeholder="05XXXXXXXX"
+                data-placeholder-ar="05XXXXXXXX"
+                data-placeholder-en="05XXXXXXXX"
               />
             </div>
 
             <div class="checkbox-group">
               <label class="checkbox-label">
                 <input type="checkbox" id="consent" required />
-                <span>أوافق على التواصل معي من قبل Glowdent Clinic</span>
+                <span
+                  data-ar="أوافق على التواصل معي من قبل Glowdent Clinic"
+                  data-en="I agree to be contacted by Glowdent Clinic"
+                  >أوافق على التواصل معي من قبل Glowdent Clinic</span
+                >
               </label>
             </div>
 
             <button type="button" class="btn-primary" onclick="submitForm()">
               <i class="fas fa-arrow-left"></i>
-              ابدأ الاختبار
+              <span data-ar="ابدأ الاختبار" data-en="Start the Test"
+                >ابدأ الاختبار</span
+              >
             </button>
           </form>
         </div>
@@ -80,12 +131,19 @@
       <!-- Screen 3: Quiz Screen -->
       <div class="screen" id="screen3">
         <div class="content">
-          <h2 class="main-title quiz-title">أسئلة حول بشرتك</h2>
+          <h2
+            class="main-title quiz-title"
+            data-ar="أسئلة حول بشرتك"
+            data-en="Questions About Your Skin"
+          >
+            أسئلة حول بشرتك
+          </h2>
           <div class="progress-bar">
             <div class="progress" id="progressBar"></div>
           </div>
           <p class="question-counter">
-            <span id="currentQuestion">1</span> من
+            <span id="currentQuestion">1</span>
+            <span data-ar="من" data-en="of">من</span>
             <span id="totalQuestions">7</span>
           </p>
 
@@ -94,11 +152,11 @@
             <div class="answer-buttons">
               <button class="btn-answer" onclick="answerQuestion(true)">
                 <i class="fas fa-check"></i>
-                نعم
+                <span data-ar="نعم" data-en="Yes">نعم</span>
               </button>
               <button class="btn-answer" onclick="answerQuestion(false)">
                 <i class="fas fa-times"></i>
-                لا
+                <span data-ar="لا" data-en="No">لا</span>
               </button>
             </div>
           </div>
@@ -111,15 +169,27 @@
           <div class="result-icon">
             <i class="fas fa-star"></i>
           </div>
-          <h2 class="main-title">نوع بشرتك هو:</h2>
+          <h2
+            class="main-title"
+            data-ar="نوع بشرتك هو:"
+            data-en="Your Skin Type is:"
+          >
+            نوع بشرتك هو:
+          </h2>
           <h1 class="result-text" id="resultSkinType"></h1>
-          <p class="result-description">
+          <p
+            class="result-description"
+            data-ar="بشرتك تحتاج عناية مخصصة،<br />وفريق Glowdent جاهز لمساعدتك بخيارات تناسبك."
+            data-en="Your skin needs specialized care,<br />and the Glowdent team is ready to help you with suitable options."
+          >
             بشرتك تحتاج عناية مخصصة،<br />وفريق Glowdent جاهز لمساعدتك بخيارات
             تناسبك.
           </p>
           <button class="btn-primary" onclick="completeRegistration()">
             <i class="fas fa-gift"></i>
-            الدخول في السحب
+            <span data-ar="الدخول في السحب" data-en="Enter the Draw"
+              >الدخول في السحب</span
+            >
           </button>
         </div>
       </div>
@@ -130,32 +200,65 @@
           <div class="success-icon">
             <i class="fas fa-check-circle"></i>
           </div>
-          <h2 class="main-title">🎉 تم تسجيلك بنجاح</h2>
-          <p class="success-message">نتمنى لك حظًا سعيدًا</p>
-          <p class="success-message">
+          <h2
+            class="main-title"
+            data-ar="🎉 تم تسجيلك بنجاح"
+            data-en="🎉 Successfully Registered"
+          >
+            🎉 تم تسجيلك بنجاح
+          </h2>
+          <p
+            class="success-message"
+            data-ar="نتمنى لك حظًا سعيدًا"
+            data-en="We wish you good luck"
+          >
+            نتمنى لك حظًا سعيدًا
+          </p>
+          <p
+            class="success-message"
+            data-ar="ونتشرف بزيارتك قريبًا في Glowdent Clinic"
+            data-en="And we look forward to welcoming you soon at Glowdent Clinic"
+          >
             ونتشرف بزيارتك قريبًا في Glowdent Clinic
           </p>
-          <p class="prizes-intro" style="margin-top: 20px">جوائز السحب تشمل:</p>
+          <p
+            class="prizes-intro"
+            style="margin-top: 20px"
+            data-ar="جوائز السحب تشمل:"
+            data-en="Draw prizes include:"
+          >
+            جوائز السحب تشمل:
+          </p>
           <div class="prizes-grid" style="margin-top: 15px">
             <div class="prize-card">
               <i class="fas fa-microscope"></i>
-
-              <p>ايفون ١٦ برو ماكس</p>
+              <p data-ar="ايفون ١٦ برو ماكس" data-en="iPhone 16 Pro Max">
+                ايفون ١٦ برو ماكس
+              </p>
             </div>
             <div class="prize-card">
               <i class="fas fa-spa"></i>
-
-              <p>فيلر فل فيس مجاناً</p>
+              <p data-ar="فيلر فل فيس مجاناً" data-en="Free Full Face Filler">
+                فيلر فل فيس مجاناً
+              </p>
             </div>
             <div class="prize-card">
               <i class="fas fa-percent"></i>
-
-              <p>خصم ٥٠٪ تبييض اسنان</p>
+              <p
+                data-ar="خصم ٥٠٪ تبييض اسنان"
+                data-en="50% Off Teeth Whitening"
+              >
+                خصم ٥٠٪ تبييض اسنان
+              </p>
             </div>
             <div class="prize-card">
               <i class="fas fa-box-open"></i>
-
-              <p>جلسة تنظيف بشرة العادية</p>
+              <p
+                data-ar="جلسة تنظيف بشرة العادية"
+                data-en="Regular Facial Cleaning Session"
+              >
+                جلسة تنظيف بشرة العادية
+              </p>
             </div>
           </div>
 
@@ -165,7 +268,9 @@
             style="margin-top: 20px"
           >
             <i class="fas fa-home"></i>
-            العودة للبداية
+            <span data-ar="العودة للبداية" data-en="Back to Start"
+              >العودة للبداية</span
+            >
           </button>
         </div>
       </div>
@@ -173,5 +278,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="script.js"></script>
+    <script src="language-toggle.js"></script>
   </body>
 </html>
