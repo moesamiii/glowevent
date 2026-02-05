@@ -6,37 +6,75 @@ let userData = {
   answers: [],
 };
 
-// General Quiz Questions (asked to everyone)
+// Language state
+let currentLanguage = "ar"; // Default language
+
+// General Quiz Questions (bilingual)
 const generalQuestions = [
   {
-    question: "هل يظهر اللمعان على بشرتك بعد ساعات قليلة من الغسل؟",
+    ar: "هل يظهر اللمعان على بشرتك بعد ساعات قليلة من الغسل؟",
+    en: "Does your skin shine a few hours after washing?",
     skinTypes: { yes: "دهنية", no: null },
   },
   {
-    question: "هل تشعر بشد في البشرة بعد الغسل؟",
+    ar: "هل تشعر بشد في البشرة بعد الغسل؟",
+    en: "Do you feel tightness in your skin after washing?",
     skinTypes: { yes: "جافة", no: null },
   },
   {
-    question: "هل تعاني من اتساع المسام؟",
+    ar: "هل تعاني من اتساع المسام؟",
+    en: "Do you suffer from enlarged pores?",
     skinTypes: { yes: "دهنية", no: null },
   },
   {
-    question: "هل تحتاج إلى ترطيب متكرر خلال اليوم؟",
+    ar: "هل تحتاج إلى ترطيب متكرر خلال اليوم؟",
+    en: "Do you need frequent moisturizing during the day?",
     skinTypes: { yes: "جافة", no: null },
   },
   {
-    question: "هل تختلف حالة بشرتك بين منطقة الجبهة والأنف مقارنة بباقي الوجه؟",
+    ar: "هل تختلف حالة بشرتك بين منطقة الجبهة والأنف مقارنة بباقي الوجه؟",
+    en: "Does your skin condition differ between the forehead and nose compared to the rest of your face?",
     skinTypes: { yes: "مختلطة", no: null },
   },
   {
-    question: "هل تظهر الحبوب بسهولة على بشرتك؟",
+    ar: "هل تظهر الحبوب بسهولة على بشرتك؟",
+    en: "Do pimples appear easily on your skin?",
     skinTypes: { yes: "دهنية", no: null },
   },
   {
-    question: "هل تعاني من التقشّر أحيانًا؟",
+    ar: "هل تعاني من التقشّر أحيانًا؟",
+    en: "Do you sometimes suffer from peeling?",
     skinTypes: { yes: "جافة", no: null },
   },
 ];
+
+// Skin type translations
+const skinTypeTranslations = {
+  دهنية: { ar: "دهنية", en: "Oily" },
+  جافة: { ar: "جافة", en: "Dry" },
+  مختلطة: { ar: "مختلطة", en: "Combination" },
+  عادية: { ar: "عادية", en: "Normal" },
+};
+
+// Alert messages
+const messages = {
+  fillName: {
+    ar: "الرجاء تعبئة الاسم الكامل",
+    en: "Please fill in your full name",
+  },
+  fillPhone: {
+    ar: "الرجاء تعبئة رقم الجوال",
+    en: "Please fill in your phone number",
+  },
+  giveConsent: {
+    ar: "يرجى الموافقة على التواصل معك",
+    en: "Please agree to be contacted",
+  },
+  registering: {
+    ar: "جاري التسجيل...",
+    en: "Registering...",
+  },
+};
 
 let currentQuestionIndex = 0;
 let skinTypeScores = {
@@ -44,6 +82,91 @@ let skinTypeScores = {
   جافة: 0,
   مختلطة: 0,
 };
+
+// Language Toggle Function
+function toggleLanguage() {
+  const html = document.documentElement;
+
+  if (currentLanguage === "ar") {
+    // Switch to English
+    currentLanguage = "en";
+    html.setAttribute("lang", "en");
+    html.setAttribute("dir", "ltr");
+    document.getElementById("langText").textContent = "العربية";
+
+    // Update all text elements
+    document.querySelectorAll("[data-en]").forEach((element) => {
+      if (element.tagName === "INPUT") {
+        element.placeholder = element.getAttribute("data-placeholder-en");
+      } else {
+        element.innerHTML = element.getAttribute("data-en");
+      }
+    });
+
+    // Update arrow icons direction
+    document
+      .querySelectorAll(".btn-primary i.fa-arrow-left")
+      .forEach((icon) => {
+        icon.classList.remove("fa-arrow-left");
+        icon.classList.add("fa-arrow-right");
+      });
+  } else {
+    // Switch to Arabic
+    currentLanguage = "ar";
+    html.setAttribute("lang", "ar");
+    html.setAttribute("dir", "rtl");
+    document.getElementById("langText").textContent = "English";
+
+    // Update all text elements
+    document.querySelectorAll("[data-ar]").forEach((element) => {
+      if (element.tagName === "INPUT") {
+        element.placeholder = element.getAttribute("data-placeholder-ar");
+      } else {
+        element.innerHTML = element.getAttribute("data-ar");
+      }
+    });
+
+    // Update arrow icons direction
+    document
+      .querySelectorAll(".btn-primary i.fa-arrow-right")
+      .forEach((icon) => {
+        icon.classList.remove("fa-arrow-right");
+        icon.classList.add("fa-arrow-left");
+      });
+  }
+
+  // Update questions if on quiz screen
+  if (document.getElementById("screen3").classList.contains("active")) {
+    updateQuestionText();
+  }
+
+  // Update result text if on result screen
+  if (document.getElementById("screen4").classList.contains("active")) {
+    updateResultText();
+  }
+}
+
+// Helper function to update question text based on current language
+function updateQuestionText() {
+  const questionElement = document.getElementById("questionText");
+  if (questionElement && currentQuestionIndex < generalQuestions.length) {
+    const question = generalQuestions[currentQuestionIndex];
+    questionElement.textContent =
+      currentLanguage === "en" ? question.en : question.ar;
+  }
+}
+
+// Helper function to update result text based on current language
+function updateResultText() {
+  const resultElement = document.getElementById("resultSkinType");
+  if (resultElement && userData.skinType) {
+    const translation = skinTypeTranslations[userData.skinType];
+    if (translation) {
+      resultElement.textContent =
+        currentLanguage === "en" ? translation.en : translation.ar;
+    }
+  }
+}
 
 // Screen Navigation
 function nextScreen(screenNumber) {
@@ -69,19 +192,19 @@ function submitForm() {
 
   // Validation
   if (!fullName) {
-    alert("الرجاء تعبئة الاسم الكامل");
+    alert(messages.fillName[currentLanguage]);
     document.getElementById("fullName").focus();
     return false;
   }
 
   if (!phoneNumber) {
-    alert("الرجاء تعبئة رقم الجوال");
+    alert(messages.fillPhone[currentLanguage]);
     document.getElementById("phoneNumber").focus();
     return false;
   }
 
   if (!consent) {
-    alert("يرجى الموافقة على التواصل معك");
+    alert(messages.giveConsent[currentLanguage]);
     return false;
   }
 
@@ -114,8 +237,10 @@ function loadQuestion() {
     questionContainer.style.transform = "scale(0.95)";
 
     setTimeout(() => {
+      const question = generalQuestions[currentQuestionIndex];
       questionText.textContent =
-        generalQuestions[currentQuestionIndex].question;
+        currentLanguage === "en" ? question.en : question.ar;
+
       document.getElementById("currentQuestion").textContent =
         currentQuestionIndex + 1;
       document.getElementById("totalQuestions").textContent =
@@ -136,7 +261,15 @@ function loadQuestion() {
 // Answer Question
 function answerQuestion(answer) {
   const currentQuestion = generalQuestions[currentQuestionIndex];
-  userData.answers.push(answer ? "نعم" : "لا");
+  const answerText = answer
+    ? currentLanguage === "en"
+      ? "Yes"
+      : "نعم"
+    : currentLanguage === "en"
+      ? "No"
+      : "لا";
+
+  userData.answers.push(answerText);
 
   // Update skin type scores based on answer
   if (answer && currentQuestion.skinTypes.yes) {
@@ -184,7 +317,17 @@ function updateProgress() {
 
 // Show Result
 function showResult() {
-  document.getElementById("resultSkinType").textContent = userData.skinType;
+  const resultElement = document.getElementById("resultSkinType");
+  const translation = skinTypeTranslations[userData.skinType];
+
+  // Set both data attributes for language switching
+  resultElement.setAttribute("data-ar", translation.ar);
+  resultElement.setAttribute("data-en", translation.en);
+
+  // Display in current language
+  resultElement.textContent =
+    currentLanguage === "en" ? translation.en : translation.ar;
+
   nextScreen(4);
 }
 
@@ -211,16 +354,27 @@ function createConfetti() {
 function completeRegistration() {
   // Show loading state
   const btn = event.target;
+  const btnSpan = btn.querySelector("span");
   const originalText = btn.innerHTML;
-  btn.innerHTML = '<span class="loading"></span> جاري التسجيل...';
+
+  const loadingHTML =
+    currentLanguage === "en"
+      ? '<span class="loading"></span> Registering...'
+      : '<span class="loading"></span> جاري التسجيل...';
+
+  btn.innerHTML = loadingHTML;
   btn.disabled = true;
 
   // Prepare answers string
   const answersString = generalQuestions
     .map((q, i) => {
-      return `${q.question}: ${userData.answers[i]}`;
+      const questionText = currentLanguage === "en" ? q.en : q.ar;
+      return `${questionText}: ${userData.answers[i]}`;
     })
     .join(" | ");
+
+  // Get skin type in both languages for Google Sheets
+  const skinTypeText = `${skinTypeTranslations[userData.skinType].ar} / ${skinTypeTranslations[userData.skinType].en}`;
 
   // Post to Google Sheets
   $.ajax({
@@ -228,7 +382,7 @@ function completeRegistration() {
     data: {
       "entry.858750066": userData.fullName,
       "entry.785700683": userData.phoneNumber,
-      "entry.1231278323": userData.skinType,
+      "entry.1231278323": skinTypeText,
       "entry.993362107": answersString,
     },
     type: "POST",
