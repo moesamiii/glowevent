@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Glowdent Clinic - Know Your Skin To Win</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Screen 1: Welcome Screen -->
+      <div class="screen active" id="screen1">
+        <div class="logo-container">
+          <h1 class="clinic-name">Glowdent Clinic</h1>
+          <p class="tagline">Where Medicine Meets Art</p>
+        </div>
+        <div class="content">
+          <h2 class="main-title">اكتشف نوع بشرتك</h2>
+          <h3 class="sub-title">وادخل السحب مع Glowdent</h3>
+          <p class="description">أول عيادة أسنان وتجميل في مول بالرياض</p>
+          <button class="btn-primary" onclick="nextScreen(2)">
+            <i class="fas fa-arrow-left"></i>
+            ابدأ الاختبار
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 2: Data Collection Screen -->
+      <div class="screen" id="screen2">
+        <div class="content">
+          <h2 class="main-title">المشاركة في السحب</h2>
+          <p class="form-intro">
+            للدخول في السحب، يرجى تعبئة البيانات التالية:
+          </p>
+
+          <form id="participantForm" class="form">
+            <div class="form-group">
+              <label>الاسم الكامل</label>
+              <input
+                type="text"
+                id="fullName"
+                required
+                placeholder="أدخل اسمك الكامل"
+              />
+            </div>
+
+            <div class="form-group">
+              <label>رقم الجوال</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                required
+                placeholder="05XXXXXXXX"
+              />
+            </div>
+
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="consent" required />
+                <span>أوافق على التواصل معي من قبل Glowdent Clinic</span>
+              </label>
+            </div>
+
+            <button type="button" class="btn-primary" onclick="submitForm()">
+              <i class="fas fa-arrow-left"></i>
+              ابدأ الاختبار
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Screen 3: Quiz Screen -->
+      <div class="screen" id="screen3">
+        <div class="content">
+          <h2 class="main-title quiz-title">أسئلة حول بشرتك</h2>
+          <div class="progress-bar">
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <p class="question-counter">
+            <span id="currentQuestion">1</span> من
+            <span id="totalQuestions">7</span>
+          </p>
+
+          <div class="question-container">
+            <h3 class="question" id="questionText"></h3>
+            <div class="answer-buttons">
+              <button class="btn-answer" onclick="answerQuestion(true)">
+                <i class="fas fa-check"></i>
+                نعم
+              </button>
+              <button class="btn-answer" onclick="answerQuestion(false)">
+                <i class="fas fa-times"></i>
+                لا
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Screen 4: Result Screen -->
+      <div class="screen" id="screen4">
+        <div class="content">
+          <div class="result-icon">
+            <i class="fas fa-star"></i>
+          </div>
+          <h2 class="main-title">نوع بشرتك هو:</h2>
+          <h1 class="result-text" id="resultSkinType"></h1>
+          <p class="result-description">
+            بشرتك تحتاج عناية مخصصة،<br />وفريق Glowdent جاهز لمساعدتك بخيارات
+            تناسبك.
+          </p>
+          <button class="btn-primary" onclick="completeRegistration()">
+            <i class="fas fa-gift"></i>
+            الدخول في السحب
+          </button>
+        </div>
+      </div>
+
+      <!-- Screen 5: Confirmation Screen -->
+      <div class="screen" id="screen5">
+        <div class="content">
+          <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <h2 class="main-title">🎉 تم تسجيلك بنجاح</h2>
+          <p class="success-message">نتمنى لك حظًا سعيدًا</p>
+          <p class="success-message">
+            ونتشرف بزيارتك قريبًا في Glowdent Clinic
+          </p>
+          <p class="prizes-intro" style="margin-top: 20px">جوائز السحب تشمل:</p>
+          <div class="prizes-grid" style="margin-top: 15px">
+            <div class="prize-card">
+              <i class="fas fa-microscope"></i>
+              <p>جلسة تحليل بشرة</p>
+            </div>
+            <div class="prize-card">
+              <i class="fas fa-spa"></i>
+              <p>جلسة تنظيف بشرة أو هيدرافيشل</p>
+            </div>
+            <div class="prize-card">
+              <i class="fas fa-percent"></i>
+              <p>خصم خاص على أول زيارة</p>
+            </div>
+            <div class="prize-card">
+              <i class="fas fa-box-open"></i>
+              <p>Gift Box عناية بالبشرة</p>
+            </div>
+          </div>
+          <p class="note" style="margin-top: 15px">
+            سيتم التواصل مع الفائزين لاحقًا
+          </p>
+          <button
+            class="btn-primary"
+            onclick="resetExperience()"
+            style="margin-top: 20px"
+          >
+            <i class="fas fa-home"></i>
+            العودة للبداية
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
