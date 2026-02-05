@@ -66,18 +66,6 @@ const messages = {
     ar: "الرجاء تعبئة رقم الجوال",
     en: "Please fill in your phone number",
   },
-  fillEmail: {
-    ar: "الرجاء تعبئة البريد الإلكتروني",
-    en: "Please fill in your email",
-  },
-  fillAge: {
-    ar: "الرجاء تعبئة العمر",
-    en: "Please fill in your age",
-  },
-  fillGender: {
-    ar: "الرجاء اختيار الجنس",
-    en: "Please select your gender",
-  },
   giveConsent: {
     ar: "يرجى الموافقة على التواصل معك",
     en: "Please agree to be contacted",
@@ -110,20 +98,6 @@ function toggleLanguage() {
     document.querySelectorAll("[data-en]").forEach((element) => {
       if (element.tagName === "INPUT") {
         element.placeholder = element.getAttribute("data-placeholder-en");
-      } else if (element.tagName === "OPTION") {
-        element.textContent = element.getAttribute("data-en");
-      } else if (
-        element.tagName === "LABEL" &&
-        !element.classList.contains("checkbox-label")
-      ) {
-        // Don't update checkbox label content here, it has special handling
-        element.textContent = element.getAttribute("data-en");
-      } else if (
-        element.tagName === "SPAN" &&
-        element.parentElement.classList.contains("checkbox-label")
-      ) {
-        // Update checkbox label span
-        element.textContent = element.getAttribute("data-en");
       } else {
         element.innerHTML = element.getAttribute("data-en");
       }
@@ -147,20 +121,6 @@ function toggleLanguage() {
     document.querySelectorAll("[data-ar]").forEach((element) => {
       if (element.tagName === "INPUT") {
         element.placeholder = element.getAttribute("data-placeholder-ar");
-      } else if (element.tagName === "OPTION") {
-        element.textContent = element.getAttribute("data-ar");
-      } else if (
-        element.tagName === "LABEL" &&
-        !element.classList.contains("checkbox-label")
-      ) {
-        // Don't update checkbox label content here, it has special handling
-        element.textContent = element.getAttribute("data-ar");
-      } else if (
-        element.tagName === "SPAN" &&
-        element.parentElement.classList.contains("checkbox-label")
-      ) {
-        // Update checkbox label span
-        element.textContent = element.getAttribute("data-ar");
       } else {
         element.innerHTML = element.getAttribute("data-ar");
       }
@@ -228,9 +188,6 @@ function nextScreen(screenNumber) {
 function submitForm() {
   const fullName = document.getElementById("fullName").value.trim();
   const phoneNumber = document.getElementById("phoneNumber").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const age = document.getElementById("age").value.trim();
-  const gender = document.getElementById("gender").value;
   const consent = document.getElementById("consent").checked;
 
   // Validation
@@ -246,24 +203,6 @@ function submitForm() {
     return false;
   }
 
-  if (!email) {
-    alert(messages.fillEmail[currentLanguage]);
-    document.getElementById("email").focus();
-    return false;
-  }
-
-  if (!age) {
-    alert(messages.fillAge[currentLanguage]);
-    document.getElementById("age").focus();
-    return false;
-  }
-
-  if (!gender) {
-    alert(messages.fillGender[currentLanguage]);
-    document.getElementById("gender").focus();
-    return false;
-  }
-
   if (!consent) {
     alert(messages.giveConsent[currentLanguage]);
     return false;
@@ -272,9 +211,6 @@ function submitForm() {
   // Store user data
   userData.fullName = fullName;
   userData.phoneNumber = phoneNumber;
-  userData.email = email;
-  userData.age = age;
-  userData.gender = gender;
 
   // Initialize quiz
   currentQuestionIndex = 0;
