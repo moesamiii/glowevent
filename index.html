@@ -77,6 +77,7 @@
           >
             للدخول في السحب، يرجى تعبئة البيانات التالية:
           </p>
+
           <form id="participantForm" class="form">
             <div class="form-group">
               <label data-ar="الاسم الكامل" data-en="Full Name"
@@ -91,6 +92,7 @@
                 data-placeholder-en="Enter your full name"
               />
             </div>
+
             <div class="form-group">
               <label data-ar="رقم الجوال" data-en="Phone Number"
                 >رقم الجوال</label
@@ -104,53 +106,18 @@
                 data-placeholder-en="05XXXXXXXX"
               />
             </div>
-            <div class="form-group">
-              <label data-ar="البريد الإلكتروني" data-en="Email"
-                >البريد الإلكتروني</label
-              >
-              <input
-                type="email"
-                id="email"
-                required
-                placeholder="example@email.com"
-                data-placeholder-ar="example@email.com"
-                data-placeholder-en="example@email.com"
-              />
-            </div>
-            <div class="form-group">
-              <label data-ar="العمر" data-en="Age">العمر</label>
-              <input
-                type="number"
-                id="age"
-                required
-                placeholder="أدخل عمرك"
-                data-placeholder-ar="أدخل عمرك"
-                data-placeholder-en="Enter your age"
-              />
-            </div>
-            <div class="form-group">
-              <label data-ar="الجنس" data-en="Gender">الجنس</label>
-              <select id="gender" required>
-                <option value="" data-ar="اختر الجنس" data-en="Select gender">
-                  اختر الجنس
-                </option>
-                <option value="male" data-ar="ذكر" data-en="Male">ذكر</option>
-                <option value="female" data-ar="أنثى" data-en="Female">
-                  أنثى
-                </option>
-              </select>
-            </div>
+
             <div class="checkbox-group">
               <label class="checkbox-label">
                 <input type="checkbox" id="consent" required />
                 <span
                   data-ar="أوافق على التواصل معي من قبل Glowdent Clinic"
                   data-en="I agree to be contacted by Glowdent Clinic"
+                  >أوافق على التواصل معي من قبل Glowdent Clinic</span
                 >
-                  أوافق على التواصل معي من قبل Glowdent Clinic
-                </span>
               </label>
             </div>
+
             <button type="button" class="btn-primary" onclick="submitForm()">
               <i class="fas fa-arrow-left"></i>
               <span data-ar="ابدأ الاختبار" data-en="Start the Test"
@@ -160,6 +127,7 @@
           </form>
         </div>
       </div>
+
       <!-- Screen 3: Quiz Screen -->
       <div class="screen" id="screen3">
         <div class="content">
