@@ -2,6 +2,9 @@
 let userData = {
   fullName: "",
   phoneNumber: "",
+  email: "",
+  age: "",
+  gender: "",
   skinType: "",
   answers: [],
 };
@@ -56,6 +59,12 @@ const skinTypeTranslations = {
   عادية: { ar: "عادية", en: "Normal" },
 };
 
+// Gender translations
+const genderTranslations = {
+  male: { ar: "ذكر", en: "Male" },
+  female: { ar: "أنثى", en: "Female" },
+};
+
 // Alert messages
 const messages = {
   fillName: {
@@ -65,6 +74,18 @@ const messages = {
   fillPhone: {
     ar: "الرجاء تعبئة رقم الجوال",
     en: "Please fill in your phone number",
+  },
+  fillEmail: {
+    ar: "الرجاء تعبئة البريد الإلكتروني",
+    en: "Please fill in your email",
+  },
+  fillAge: {
+    ar: "الرجاء تعبئة العمر",
+    en: "Please fill in your age",
+  },
+  fillGender: {
+    ar: "الرجاء اختيار الجنس",
+    en: "Please select your gender",
   },
   giveConsent: {
     ar: "يرجى الموافقة على التواصل معك",
@@ -98,6 +119,8 @@ function toggleLanguage() {
     document.querySelectorAll("[data-en]").forEach((element) => {
       if (element.tagName === "INPUT") {
         element.placeholder = element.getAttribute("data-placeholder-en");
+      } else if (element.tagName === "OPTION") {
+        element.textContent = element.getAttribute("data-en");
       } else {
         element.innerHTML = element.getAttribute("data-en");
       }
@@ -121,6 +144,8 @@ function toggleLanguage() {
     document.querySelectorAll("[data-ar]").forEach((element) => {
       if (element.tagName === "INPUT") {
         element.placeholder = element.getAttribute("data-placeholder-ar");
+      } else if (element.tagName === "OPTION") {
+        element.textContent = element.getAttribute("data-ar");
       } else {
         element.innerHTML = element.getAttribute("data-ar");
       }
@@ -188,6 +213,9 @@ function nextScreen(screenNumber) {
 function submitForm() {
   const fullName = document.getElementById("fullName").value.trim();
   const phoneNumber = document.getElementById("phoneNumber").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const age = document.getElementById("age").value.trim();
+  const gender = document.getElementById("gender").value;
   const consent = document.getElementById("consent").checked;
 
   // Validation
@@ -203,6 +231,24 @@ function submitForm() {
     return false;
   }
 
+  if (!email) {
+    alert(messages.fillEmail[currentLanguage]);
+    document.getElementById("email").focus();
+    return false;
+  }
+
+  if (!age) {
+    alert(messages.fillAge[currentLanguage]);
+    document.getElementById("age").focus();
+    return false;
+  }
+
+  if (!gender) {
+    alert(messages.fillGender[currentLanguage]);
+    document.getElementById("gender").focus();
+    return false;
+  }
+
   if (!consent) {
     alert(messages.giveConsent[currentLanguage]);
     return false;
@@ -211,6 +257,9 @@ function submitForm() {
   // Store user data
   userData.fullName = fullName;
   userData.phoneNumber = phoneNumber;
+  userData.email = email;
+  userData.age = age;
+  userData.gender = gender;
 
   // Initialize quiz
   currentQuestionIndex = 0;
@@ -376,6 +425,9 @@ function completeRegistration() {
   // Get skin type in both languages for Google Sheets
   const skinTypeText = `${skinTypeTranslations[userData.skinType].ar} / ${skinTypeTranslations[userData.skinType].en}`;
 
+  // Get gender in both languages
+  const genderText = `${genderTranslations[userData.gender].ar} / ${genderTranslations[userData.gender].en}`;
+
   // Post to Google Sheets
   $.ajax({
     url: "https://docs.google.com/forms/u/0/d/e/1FAIpQLSfuScGbnSmXtNe4Q578TQBhmicwiGxCEr_1ncp1irAskli7cA/formResponse",
@@ -384,6 +436,9 @@ function completeRegistration() {
       "entry.785700683": userData.phoneNumber,
       "entry.1231278323": skinTypeText,
       "entry.993362107": answersString,
+      "entry.1234567890": userData.email,
+      "entry.1234567891": userData.age,
+      "entry.1234567892": genderText,
     },
     type: "POST",
     dataType: "xml",
@@ -412,6 +467,9 @@ function resetExperience() {
   userData = {
     fullName: "",
     phoneNumber: "",
+    email: "",
+    age: "",
+    gender: "",
     skinType: "",
     answers: [],
   };
